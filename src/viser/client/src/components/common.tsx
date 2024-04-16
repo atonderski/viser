@@ -86,27 +86,38 @@ function LabeledInput(props: {
 export function VectorInput(
   props:
     | {
-        id: string;
-        n: 2;
-        value: [number, number];
-        min: [number, number] | null;
-        max: [number, number] | null;
-        step: number;
-        precision: number;
-        onChange: (value: number[]) => void;
-        disabled: boolean;
-      }
+      id: string;
+      n: 2;
+      value: [number, number];
+      min: [number, number] | null;
+      max: [number, number] | null;
+      step: number;
+      precision: number;
+      onChange: (value: number[]) => void;
+      disabled: boolean;
+    }
     | {
-        id: string;
-        n: 3;
-        value: [number, number, number];
-        min: [number, number, number] | null;
-        max: [number, number, number] | null;
-        step: number;
-        precision: number;
-        onChange: (value: number[]) => void;
-        disabled: boolean;
-      },
+      id: string;
+      n: 3;
+      value: [number, number, number];
+      min: [number, number, number] | null;
+      max: [number, number, number] | null;
+      step: number;
+      precision: number;
+      onChange: (value: number[]) => void;
+      disabled: boolean;
+    }
+    | {
+      id: string;
+      n: Exclude<number, 2 | 3>;  // lenient fallback for variable length vectors
+      value: number[];
+      min: number[] | null;
+      max: number[] | null;
+      step: number;
+      precision: number;
+      onChange: (value: number[]) => void;
+      disabled: boolean;
+    },
 ) {
   return (
     <Flex justify="space-between" columnGap="0.5em">

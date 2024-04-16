@@ -9,6 +9,7 @@ import SliderComponent from "../components/Slider";
 import NumberInputComponent from "../components/NumberInput";
 import TextInputComponent from "../components/TextInput";
 import CheckboxComponent from "../components/Checkbox";
+import VectorComponent from "../components/Vector";
 import Vector2Component from "../components/Vector2";
 import Vector3Component from "../components/Vector3";
 import DropdownComponent from "../components/Dropdown";
@@ -108,6 +109,8 @@ function GeneratedInput(props: { guiId: string }) {
       return <Vector2Component {...conf} />;
     case "GuiAddVector3Message":
       return <Vector3Component {...conf} />;
+    case "GuiAddVectorMessage":
+      return <VectorComponent {...conf} />;
     case "GuiAddDropdownMessage":
       return <DropdownComponent {...conf} />;
     case "GuiAddRgbMessage":

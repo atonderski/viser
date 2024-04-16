@@ -940,7 +940,7 @@ class GuiApi(abc.ABC):
             A handle that can be used to interact with the GUI element.
         """
         value = initial_value
-        value = cast_vector(value, 2)
+        value = cast_vector(value, 3)
         min = cast_vector(min, 3) if min is not None else None
         max = cast_vector(max, 3) if max is not None else None
         id = _make_unique_id()
@@ -958,6 +958,69 @@ class GuiApi(abc.ABC):
         return self._create_gui_input(
             value,
             message=_messages.GuiAddVector3Message(
+                order=order,
+                id=id,
+                label=label,
+                container_id=self._get_container_id(),
+                hint=hint,
+                value=value,
+                min=min,
+                max=max,
+                step=step,
+                precision=_compute_precision_digits(step),
+                disabled=disabled,
+                visible=visible,
+            ),
+        )
+
+    def add_gui_vector(
+        self,
+        label: str,
+        initial_value: Tuple[float, ...] | onp.ndarray,
+        min: Tuple[float, ...] | onp.ndarray | None = None,
+        max: Tuple[float, ...] | onp.ndarray | None = None,
+        step: Optional[float] = None,
+        disabled: bool = False,
+        visible: bool = True,
+        hint: Optional[str] = None,
+        order: Optional[float] = None,
+    ) -> GuiInputHandle[Tuple[float, ...]]:
+        """Add an arbitrary length vector input to the GUI.
+
+        Args:
+            label: Label to display on the vector input.
+            initial_value: Initial value of the vector input.
+            min: Optional minimum value of the vector input.
+            max: Optional maximum value of the vector input.
+            step: Optional step size of the vector input. Computed automatically if not
+            disabled: Whether the vector input is disabled.
+            visible: Whether the vector input is visible.
+            hint: Optional hint to display on hover.
+            order: Optional ordering, smallest values will be displayed first.
+
+        Returns:
+            A handle that can be used to interact with the GUI element.
+        """
+        value = initial_value
+        length = len(value)
+        value = cast_vector(value, length)
+        min = cast_vector(min, length) if min is not None else None
+        max = cast_vector(max, length) if max is not None else None
+        id = _make_unique_id()
+        order = _apply_default_order(order)
+
+        if step is None:
+            possible_steps: List[float] = []
+            possible_steps.extend([_compute_step(x) for x in value])
+            if min is not None:
+                possible_steps.extend([_compute_step(x) for x in min])
+            if max is not None:
+                possible_steps.extend([_compute_step(x) for x in max])
+            step = float(onp.min(possible_steps))
+
+        return self._create_gui_input(
+            value,
+            message=_messages.GuiAddVectorMessage(
                 order=order,
                 id=id,
                 label=label,

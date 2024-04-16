@@ -571,6 +571,16 @@ class GuiAddVector3Message(_GuiAddInputBase):
 
 @tag_class("GuiAddComponentMessage")
 @dataclasses.dataclass
+class GuiAddVectorMessage(_GuiAddInputBase):
+    value: Tuple[float, ...]
+    min: Optional[Tuple[float, ...]]
+    max: Optional[Tuple[float, ...]]
+    step: float
+    precision: int
+
+
+@tag_class("GuiAddComponentMessage")
+@dataclasses.dataclass
 class GuiAddTextMessage(_GuiAddInputBase):
     value: str
 

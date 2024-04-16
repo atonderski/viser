@@ -578,6 +578,25 @@ export interface GuiAddVector3Message {
   step: number;
   precision: number;
 }
+/** GuiAddVectorMessage(order: 'float', id: 'str', label: 'str', container_id: 'str', hint: 'Optional[str]', value: 'Tuple[float, ...]', visible: 'bool', disabled: 'bool', min: 'Optional[Tuple[float, ...]]', max: 'Optional[Tuple[float, ...]]', step: 'float', precision: 'int')
+ *
+ * (automatically generated)
+ */
+export interface GuiAddVectorMessage {
+  type: "GuiAddVectorMessage";
+  order: number;
+  id: string;
+  label: string;
+  container_id: string;
+  hint: string | null;
+  value: number[];
+  visible: boolean;
+  disabled: boolean;
+  min: number[] | null;
+  max: number[] | null;
+  step: number;
+  precision: number;
+}
 /** GuiAddTextMessage(order: 'float', id: 'str', label: 'str', container_id: 'str', hint: 'Optional[str]', value: 'str', visible: 'bool', disabled: 'bool')
  *
  * (automatically generated)
@@ -856,6 +875,7 @@ export type Message =
   | GuiAddCheckboxMessage
   | GuiAddVector2Message
   | GuiAddVector3Message
+  | GuiAddVectorMessage
   | GuiAddTextMessage
   | GuiAddDropdownMessage
   | GuiAddButtonGroupMessage
@@ -889,6 +909,7 @@ export type GuiAddComponentMessage =
   | GuiAddCheckboxMessage
   | GuiAddVector2Message
   | GuiAddVector3Message
+  | GuiAddVectorMessage
   | GuiAddTextMessage
   | GuiAddDropdownMessage
   | GuiAddButtonGroupMessage;

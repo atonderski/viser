@@ -140,53 +140,69 @@ export function SynchronizedCameraControls() {
     // TODO: these event listeners are currently never removed, even if this
     // component gets unmounted.
     aKey.addEventListener("holding", (event) => {
-      cameraControls.truck(-0.002 * event?.deltaTime, 0, true);
+      cameraControls.truck(-0.004 * event?.deltaTime, 0, true);
     });
     dKey.addEventListener("holding", (event) => {
-      cameraControls.truck(0.002 * event?.deltaTime, 0, true);
+      cameraControls.truck(0.004 * event?.deltaTime, 0, true);
     });
     wKey.addEventListener("holding", (event) => {
-      cameraControls.forward(0.002 * event?.deltaTime, true);
+      cameraControls.forward(0.004 * event?.deltaTime, true);
     });
     sKey.addEventListener("holding", (event) => {
-      cameraControls.forward(-0.002 * event?.deltaTime, true);
+      cameraControls.forward(-0.004 * event?.deltaTime, true);
     });
     qKey.addEventListener("holding", (event) => {
-      cameraControls.elevate(-0.002 * event?.deltaTime, true);
+      cameraControls.elevate(-0.004 * event?.deltaTime, true);
     });
     eKey.addEventListener("holding", (event) => {
-      cameraControls.elevate(0.002 * event?.deltaTime, true);
+      cameraControls.elevate(0.004 * event?.deltaTime, true);
     });
 
     const leftKey = new holdEvent.KeyboardKeyHold("ArrowLeft", 20);
     const rightKey = new holdEvent.KeyboardKeyHold("ArrowRight", 20);
     const upKey = new holdEvent.KeyboardKeyHold("ArrowUp", 20);
     const downKey = new holdEvent.KeyboardKeyHold("ArrowDown", 20);
-    leftKey.addEventListener("holding", (event) => {
-      cameraControls.rotate(
-        -0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
-        0,
+    function update_target() {
+      const curTar = new THREE.Vector3();
+      cameraControls.getTarget(curTar);
+      const curPos = new THREE.Vector3();
+      cameraControls.getPosition(curPos);
+      const diff = curTar.sub(curPos).clampLength(0, 0.01);
+      cameraControls.setTarget(
+        curPos.x + diff.x,
+        curPos.y + diff.y,
+        curPos.z + diff.z,
         true,
       );
-    });
-    rightKey.addEventListener("holding", (event) => {
+    }
+    leftKey.addEventListener("holding", (event) => {
+      update_target();
       cameraControls.rotate(
         0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
         0,
         true,
       );
     });
+    rightKey.addEventListener("holding", (event) => {
+      update_target();
+      cameraControls.rotate(
+        -0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
+        0,
+        true,
+      );
+    });
     upKey.addEventListener("holding", (event) => {
+      update_target();
       cameraControls.rotate(
         0,
-        -0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
+        0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
         true,
       );
     });
     downKey.addEventListener("holding", (event) => {
       cameraControls.rotate(
         0,
-        0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
+        -0.05 * THREE.MathUtils.DEG2RAD * event?.deltaTime,
         true,
       );
     });
